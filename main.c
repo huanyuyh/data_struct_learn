@@ -1,62 +1,91 @@
+//
+// Created by HUANYU on 2024/3/3.
+//
 #include <stdio.h>
 #include <stdlib.h>
-
 typedef int E;
-
-struct List {
-    E * array;
-    int capacity;
-    int size;
+struct LinkNode{
+    E element;
+    struct LinkNode * next;
 };
+typedef struct LinkNode * Node;
 
-typedef struct List * ArrayList;
-
-_Bool initList(ArrayList list){
-    list->array = malloc(sizeof(E) * 10);
-    if(list->array == NULL) return 0;
-    list->capacity = 10;
-    list->size = 0;
-    return 1;
+void  initList(Node node){
+    node->next = NULL;
 }
 
-_Bool insertList(ArrayList list, E element, int index){
-    if(index < 1 || index > list->size + 1) return 0;
-
-    if(list->size == list->capacity) {
-        int newCapacity = list->capacity + (list->capacity >> 1);
-        E * newArray = realloc(list->array, newCapacity * sizeof(E));
-        if(newArray == NULL) return 0;
-        list->array = newArray;
-        list->capacity = newCapacity;
+_Bool insertList(Node head ,E element,int index){
+    if(index<1) return 0;
+    while (--index){
+        head=head->next;
+        if(head==NULL)return 0;
     }
-
-    for (int i = list->size; i > index - 1; --i)
-        list->array[i] = list->array[i - 1];
-    list->array[index - 1] = element;
-    list->size++;
-    return 1;
+    Node node = malloc(sizeof (struct LinkNode));
+    if(node ==NULL)return 0;
+    node->element = element;
+    node->next = head->next;
+    head->next = node;
 }
 
-_Bool deleteList(ArrayList list, int index){
-    if(index < 1 || index > list->size) return 0;
-    for (int i = index - 1; i < list->size - 1; ++i)
-        list->array[i] = list->array[i + 1];
-    list->size--;
-    return 1;
+
+_Bool deleteList(Node head ,int index) {
+    if (index < 1) return 0;
+    while (--index) {
+        head = head->next;
+        if (head == NULL)return 0;
+    }
+    if(head->next==NULL)return 0;
+    Node temp = head->next;
+    head->next = head->next->next;
+    free(temp);
+}
+void printList(Node head){
+    while (head->next){
+        head = head->next;
+        printf("%d ",head->element);
+    }
+    printf("\n");
 }
 
-int sizeList(ArrayList list){
-    return list->size;
+E * getList(Node head,int index){
+    if(index < 1)return 0;
+    do {
+        head = head->next;
+        if(head == NULL)return 0;
+    } while (--index);
+    return &head->element;
 }
 
-E * getList(ArrayList list, int index){
-    if(index < 1 || index > list->size) return NULL;
-    return &list->array[index - 1];
-}
-
-int findList(ArrayList list, E element){
-    for (int i = 0; i < list->size; ++i) {
-        if(list->array[i] == element) return i + 1;
+int findList(Node head,E element){
+    head = head->next;
+    int i = 1;
+    while (head){
+        if(head->element == element)return i;
+        head = head->next;
+        i++;
     }
     return -1;
+}
+
+int sizeLsit(Node head){
+    int i = 0;
+    while (head->next){
+        head = head->next;
+        i++;
+    }
+    return i;
+}
+
+int main(){
+    struct LinkNode head;
+    initList(&head);
+    for (int i = 1; i <= 3; ++i) {
+        insertList(&head,i*100,i);
+    }
+//    deleteList(&head,3);
+    printf("%d\n" , *getList(&head,3));
+    printList(&head);
+    printf("%d\n", findList(&head,100));
+    printf("%d", sizeLsit(&head));
+    return 0;
 }
