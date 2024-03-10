@@ -6,74 +6,56 @@
 
 typedef int E;
 
-struct BothListNode{
+struct ListNode {
     E element;
-    struct BothListNode * next;
-    struct BothListNode * prev;
+    struct ListNode * next;
 };
 
-typedef struct BothListNode * BthNode;
+typedef struct ListNode * Node;
 
-void initBthList(BthNode head){
+void initStack(Node head){
     head->next = NULL;
-    head->prev = NULL;
 }
 
-_Bool insertBthList(BthNode head,E element,int index){
-    if(index<1)return 0;
-    while (--index){
-        head = head->next;
-        if(head==NULL)return 0;
-    }
-    BthNode bthNode = malloc(sizeof (struct BothListNode));
-    if(bthNode==NULL)return 0;
-    bthNode->element = element;
-    if(head->next !=NULL){
-        bthNode->next = head->next;
-        head->next->prev = bthNode;
-    } else{
-        bthNode->next = NULL;
-    }
-    head->next = bthNode;
-    bthNode->prev = head;
-
+_Bool pushStack(Node head, E element){
+    Node node = malloc(sizeof(struct ListNode));   //创建新的结点
+    if(node == NULL) return 0;   //失败就返回0
+    node->next = head->next;   //将当前结点的下一个设定为头结点的下一个
+    node->element = element;   //设置元素
+    head->next = node;   //将头结点的下一个设定为当前结点
     return 1;
 }
 
-_Bool deleteBthList(BthNode head,int index){
-    if (index < 1) return 0;
-    while (--index) {
+void printStack(Node head){
+    printf("| ");
+    head = head->next;
+    while (head){
+        printf("%d ", head->element);
         head = head->next;
-        if (head == NULL)return 0;
     }
-    if(head->next==NULL)return 0;
-    BthNode temp = head->next;
-    if(head->next->next){
-        head->next = head->next->next;
-        head->next->prev = head;
-    } else{
-        head->next = NULL;
-    }
-    free(temp);
-    return 1;
+    printf("\n");
+}
+
+_Bool isEmpty(Node head){
+    return head->next == NULL;   //判断栈是否为空只需要看头结点下一个是否为NULL即可
+}
+
+E popStack(Node head){
+    Node top = head->next;
+    head->next = head->next->next;
+    E e = top->element;
+    free(top);  //别忘了释放结点的内存
+    return e;   //返回出栈元素
 }
 
 int main(){
-    struct BothListNode head;
-    initBthList(&head);
-    for (int i = 0; i < 5; ++i) {
-        insertBthList(&head,i*100,i);
+    struct ListNode head;
+    initStack(&head);
+    for (int i = 0; i < 3; ++i) {
+        pushStack(&head, i*100);
     }
-    deleteBthList(&head,1);
-    BthNode node = &head;
-    do {
-        node = node->next;
-        printf("%d -> ",node->element);
-    } while (node->next!=NULL);
-    printf("\n");
-    do {
-        printf("%d -> ",node->element );
-        node=node->prev;
-    } while (node->prev!=NULL);
-    return 0;
+    printStack(&head);
+    while (!isEmpty(&head)) {
+        printf("%d ", popStack(&head));   //将栈中所有元素依次出栈
+    }
 }
