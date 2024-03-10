@@ -1,3 +1,6 @@
+//
+// Created by HUANYU on 2024/3/3.
+//
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -59,4 +62,9 @@ int findList(ArrayList list, E element){
         if(list->array[i] == element) return i + 1;
     }
     return -1;
+}
+
+int main(){
+
+    return 0;
 }

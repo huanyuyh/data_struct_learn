@@ -3,4 +3,5 @@ project(data_struct_learn C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(data_struct_learn main.c)
+add_executable(data_struct_learn lineTable.c
+        main.c)
