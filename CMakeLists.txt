@@ -3,4 +3,10 @@ project(data_struct_learn C)
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(data_struct_learn main.c)
+add_executable(data_struct_learn main.c
+        lineList.c
+        lineList.h
+        linkList.c
+        linkList.h
+        bothLinkList.h
+        bothLinkList.c)

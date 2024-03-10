@@ -1,18 +1,10 @@
 //
-// Created by HUANYU on 2024/3/3.
+// Created by HUANYU on 2024/3/10.
 //
 #include <stdio.h>
 #include <stdlib.h>
+#include "bothLinkList.h"
 
-typedef int E;
-
-struct BothListNode{
-    E element;
-    struct BothListNode * next;
-    struct BothListNode * prev;
-};
-
-typedef struct BothListNode * BthNode;
 
 void initBthList(BthNode head){
     head->next = NULL;
@@ -58,14 +50,7 @@ _Bool deleteBthList(BthNode head,int index){
     return 1;
 }
 
-int main(){
-    struct BothListNode head;
-    initBthList(&head);
-    for (int i = 0; i < 5; ++i) {
-        insertBthList(&head,i*100,i);
-    }
-    deleteBthList(&head,1);
-    BthNode node = &head;
+void printBtnLinkList(BthNode node){
     do {
         node = node->next;
         printf("%d -> ",node->element);
@@ -75,5 +60,4 @@ int main(){
         printf("%d -> ",node->element );
         node=node->prev;
     } while (node->prev!=NULL);
-    return 0;
 }
