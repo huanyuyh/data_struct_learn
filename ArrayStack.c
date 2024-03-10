@@ -1,5 +1,5 @@
 //
-// Created by HUANYU on 2024/3/3.
+// Created by HUANYU on 2024/3/10.
 //
 #include <stdio.h>
 #include <stdlib.h>
@@ -49,16 +49,4 @@ _Bool isEmpty(ArrayStack stack){   //在出栈之前，我们还需要使用isEm
 
 E popStack(ArrayStack stack){
     return stack->array[stack->top--];   //直接返回栈顶元素，注意多加一个自减操作
-}
-
-int main(){
-    struct Stack stack;
-    initStack(&stack);
-    for (int i = 0; i < 3; ++i) {
-        pushStack(&stack, i*100);
-    }
-    printStack(&stack);
-    while (!isEmpty(&stack)) {
-        printf("%d ", popStack(&stack));   //将栈中所有元素依次出栈
-    }
 }
