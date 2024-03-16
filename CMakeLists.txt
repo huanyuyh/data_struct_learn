@@ -11,4 +11,6 @@ add_executable(data_struct_learn main.c
         bothLinkList.h
         bothLinkList.c
         ArrayStack.h
-        ArrayStack.c)
+        ArrayStack.c
+        LinkStack.c
+        LinkStack.h)
